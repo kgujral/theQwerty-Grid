@@ -1,0 +1,26 @@
+body {
+	font-size: 0.9em;
+}
+
+a {
+	cursor: pointer;
+	color: blue;
+	text-decoration: underline;
+}
+
+.theQwerty-disabled {
+	color: gray;
+	font-size: 0.8em;	
+}
+
+.pg-num {
+	padding: 0px 10px;
+}
+
+.theQwerty-paging-controls {
+	margin: 20px 0px;
+}
+
+.p90x-display-grid {
+	width: 90%;
+}
