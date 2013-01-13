@@ -10,44 +10,14 @@ var theQwerty = function() {
 	var _theQwertyGrid_sortInAsc = true;
 	var _theQwertyGrid_PK = [];
 	var _theQwertyGrid_tableProps = [];
-
-	var defaults = {
-		id: {
-		},
-		cssClass: {
-			table : "p90x-display-grid",
-			thead : "",
-			theadTr : "portlet-section-header results-header",
-			theadTrTh : "tableHeading",
-			tbody: "",
-			tbodyTr: "",
-			tbodyTrOdd: "",
-			tbodyTrEven: "",
-			tbodyTrTd: "",
-			controls: "theQwertyGrid-controls",
-			pagingControls: "theQwerty-paging-controls",
-			pagingFirst: "first",
-			pagingPrev: "previous",
-			pagingNext: "next",
-			pagingLast: "last",
-			pagingDisabled: "theQwerty-disabled",
-			pagingPageNumber: "pg-num",
-			errorMessage: "grid-error-message"
-		},
-		text: {
-			previous: " &lt; Previous ",
-			next: " Next &gt; ",
-			errorMessage: "No data to display"
-		}
-	};
-
+	
 	/**
 	 * initialising various table properties
 	 */
 	function theQwertyGrid_init(_tableProps) {
 		_tableProps.data = _tableProps.data || [];
 		_tableProps.displayData = _tableProps.displayData || "";
-		_tableProps.errorMessage = _tableProps.errorMessage || defaults.text.errorMessage;
+		_tableProps.errorMessage = _tableProps.errorMessage || THE_QWERTY_DEFAULTS.text.errorMessage;
 		_tableProps.loadingImage = _tableProps.loadingImage || "undefined";
 		_tableProps.wrapperId = typeof(_tableProps.wrapperId) === "undefined" ? "body" : "#"+_tableProps.wrapperId;
 		_tableProps.tableId = typeof(_tableProps.tableId) === "undefined" ? "table-id" : _tableProps.tableId;
@@ -65,7 +35,6 @@ var theQwerty = function() {
 			_tableProps.cols[i].displayAs = typeof(_tableProps.cols[i].displayAs) === "undefined" ? "normal" :  _tableProps.cols[i].displayAs;
 			_tableProps.cols[i].values = typeof(_tableProps.cols[i].values) === "undefined" ? [] :  _tableProps.cols[i].values;
 			_tableProps.cols[i].displayValues = typeof(_tableProps.cols[i].displayValues) === "undefined" ? _tableProps.cols[i].values :  _tableProps.cols[i].displayValues;
-			_tableProps.cols[i].func = typeof(_tableProps.cols[i].func) === "undefined" ? "theQwertyDummyFunction" :  _tableProps.cols[i].func;
 			_tableProps.cols[i].transformer = typeof(_tableProps.cols[i].transformer) === "undefined" ? theQwertyDummyFunctionArg :  _tableProps.cols[i].transformer;
 			_tableProps.cols[i].cssClass = typeof(_tableProps.cols[i].cssClass) === "undefined" ? "" :  _tableProps.cols[i].cssClass;
 			_tableProps.cols[i].width = typeof(_tableProps.cols[i].width) === "undefined" ? "auto" :  _tableProps.cols[i].width;
@@ -74,7 +43,6 @@ var theQwerty = function() {
 		_tableProps.controls = typeof(_tableProps.controls) === "undefined" ? [] : _tableProps.controls;
 		for(var i=0; i<_tableProps.controls.length; i++) {
 			_tableProps.controls[i].type = typeof(_tableProps.controls[i].type) === "undefined" ? "button" :  _tableProps.controls[i].type;
-			_tableProps.controls[i].func = typeof(_tableProps.controls[i].func) === "undefined" ? "theQwertyDummyFunction" :  _tableProps.controls[i].func;
 			_tableProps.controls[i].caption = typeof(_tableProps.controls[i].caption) === "undefined"  ? "" :  _tableProps.controls[i].caption;
 			_tableProps.controls[i].cssClass = typeof(_tableProps.controls[i].cssClass) === "undefined"  ? "" :  _tableProps.controls[i].cssClass;
 			_tableProps.controls[i].headerCaption = typeof(_tableProps.controls[i].headerCaption) === "undefined"  ? _tableProps.controls[i].caption :  _tableProps.controls[i].headerCaption;
@@ -100,17 +68,17 @@ var theQwerty = function() {
 		_theQwertyGrid_cols = _tableProps.cols;
 		_theQwertyGrid_sortInAsc = true;
 		
-		defaults.id.pagingPrev = _theQwertyGrid_tableProps.tableId+"-prev-link";
-		defaults.id.pagingNext = _theQwertyGrid_tableProps.tableId+"-next-link";
+		THE_QWERTY_DEFAULTS.id.pagingPrev = _theQwertyGrid_tableProps.tableId+"-prev-link";
+		THE_QWERTY_DEFAULTS.id.pagingNext = _theQwertyGrid_tableProps.tableId+"-next-link";
 
-		defaults.cssClass.pagingPrevSys = _theQwertyGrid_tableProps.tableId+"-prev";
-		defaults.cssClass.pagingPrevDisabledSys = _theQwertyGrid_tableProps.tableId+"-prev-disabled";
+		THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys = _theQwertyGrid_tableProps.tableId+"-prev";
+		THE_QWERTY_DEFAULTS.cssClass.pagingPrevDisabledSys = _theQwertyGrid_tableProps.tableId+"-prev-disabled";
 		
-		defaults.cssClass.pagingNextSys = _theQwertyGrid_tableProps.tableId+"-next";
-		defaults.cssClass.pagingNextDisabledSys = _theQwertyGrid_tableProps.tableId+"-next-disabled";
+		THE_QWERTY_DEFAULTS.cssClass.pagingNextSys = _theQwertyGrid_tableProps.tableId+"-next";
+		THE_QWERTY_DEFAULTS.cssClass.pagingNextDisabledSys = _theQwertyGrid_tableProps.tableId+"-next-disabled";
 		
-		defaults.cssClass.pagingFirstDisabledSys = _theQwertyGrid_tableProps.tableId+"-first-disabled";
-		defaults.cssClass.pagingLastDisabledSys = _theQwertyGrid_tableProps.tableId+"-last-disabled";
+		THE_QWERTY_DEFAULTS.cssClass.pagingFirstDisabledSys = _theQwertyGrid_tableProps.tableId+"-first-disabled";
+		THE_QWERTY_DEFAULTS.cssClass.pagingLastDisabledSys = _theQwertyGrid_tableProps.tableId+"-last-disabled";
 		
 		if(_tableProps.paging.totalRecords <= 0) {
 			theQwertyGrid_showErrorMessage(_tableProps.errorMessage);
@@ -131,11 +99,11 @@ var theQwerty = function() {
 	function theQwertyGrid_tableHeader (_tableProps) {
 		var thead = jQuery("<thead>");
 		var theadTr = jQuery("<tr>");
-		theadTr.addClass(defaults.cssClass.theadTr);
+		theadTr.addClass(THE_QWERTY_DEFAULTS.cssClass.theadTr);
 		
 		for(var i=0; i< _tableProps.headerCols.length; i++) {
 			var theadTrTh = jQuery("<th>");
-			theadTrTh.addClass(defaults.cssClass.theadTrTh);
+			theadTrTh.addClass(THE_QWERTY_DEFAULTS.cssClass.theadTrTh);
 			var thWidth = typeof _tableProps.cols[i] === "undefined" ? "auto" : _tableProps.cols[i].width;
 			theadTrTh.attr("width", thWidth);
 			if(!typeof(_tableProps.cols[i]) === "undefined" && _tableProps.cols[i].sortable) {
@@ -176,7 +144,7 @@ var theQwerty = function() {
 		
 		
 		_theQwertyGrid_table = jQuery("<table>");
-		_theQwertyGrid_table.addClass(defaults.cssClass.table);
+		_theQwertyGrid_table.addClass(THE_QWERTY_DEFAULTS.cssClass.table);
 		_theQwertyGrid_table.attr("id",_tableProps.tableId);
 		_theQwertyGrid_table.attr("style", "display: none;");
 		
@@ -193,59 +161,25 @@ var theQwerty = function() {
 	 * add rows to table body
 	 */
 	function theQwertyGrid_addRows (data, tableProps) {
-		var PKVals;
 		var tbody = jQuery("#"+tableProps.tableId+"_rows");
 		for (var i = 0; i < data.length; i++) {
-		
-			PKVals = "";
-			for(var j=0; j< _theQwertyGrid_PK.length; j++) {
-				PKVals += ", '"+data[i][_theQwertyGrid_cols[_theQwertyGrid_PK[j]].name]+"'";
-	    	}
-			
-			// Removing the extra ', ' in the beginning of the PK value
-			PKVals = PKVals.substring(2);
+			PKVals = getPKParams(data[i]);
 	    	var tr = jQuery("<tr>").attr("id",tableProps.tableId+"_row"+i);
 	    	var td = jQuery("<td>");
 	    	if(i % 2 == 0)
-	    		tr.attr("class", defaults.cssClass.tbodyTrOdd);
+	    		tr.attr("class", THE_QWERTY_DEFAULTS.cssClass.tbodyTrOdd);
 	    	else
-	    		tr.attr("class", defaults.cssClass.tbodyTrEven);
+	    		tr.attr("class", THE_QWERTY_DEFAULTS.cssClass.tbodyTrEven);
 	    		
 			for(var j=0; j< _theQwertyGrid_cols.length; j++) {
 				if(!_theQwertyGrid_cols[j].hide) {
-					if(_theQwertyGrid_cols[j].displayAs == "normal") {
-						tr.append(jQuery("<td>").html(_theQwertyGrid_cols[j].transformer(data[i][_theQwertyGrid_cols[j].name])));
-					}
-					else if(_theQwertyGrid_cols[j].displayAs == "select") {
-						var selectId = tableProps.tableId+"-select-"+j;
-						var val = data[i][_theQwertyGrid_cols[j].name];
-						var selectHtml = "<select id=\""+selectId+"\"class=\""+defaults.cssClass.controls+" "+_theQwertyGrid_cols[j].cssClass+"\" onchange=\""+_theQwertyGrid_cols[j].func+"(this,"+PKVals+")\">";
-						var optionHtml = "";
-						for(var  k=0; k<_theQwertyGrid_cols[j].values.length; k++) {
-							if(_theQwertyGrid_cols[j].values[k] == val) {
-								optionHtml += "<option selected =\"selected\" value=\""+_theQwertyGrid_cols[j].values[k]+"\">"+_theQwertyGrid_cols[j].displayValues[k]+"</option>";
-							} else {
-								optionHtml += "<option value=\""+_theQwertyGrid_cols[j].values[k]+"\">"+_theQwertyGrid_cols[j].displayValues[k]+"</option>";
-							}
-						}
-						selectHtml += optionHtml + "</select>";
-						
-						tr.append(jQuery("<td>").html(selectHtml));
-					}
+					var tdx = getTDValue(_theQwertyGrid_cols[j], data[i], i);
+					tr.append(tdx);
 				}
 	    	}
 			
 			for(var j=0; j< tableProps.controls.length; j++) {
-				var predicates = "";
-				for(k=0;k<tableProps.controls[j].predicateProperty.length;k++) {
-					predicates+= ", "+data[i][tableProps.controls[j].predicateProperty[k]];
-				}
-				predicates = predicates.substring(2);
-				if(tableProps.controls[j].displayPredicate(predicates)) {
-	   				if(tableProps.controls[j].type == "button") {
-	   					td.append("<input title=\""+tableProps.controls[j].title+"\" class=\""+defaults.cssClass.controls+" "+tableProps.controls[j].cssClass+"\" type=\""+tableProps.controls[j].type+"\" value=\""+tableProps.controls[j].caption+"\" onclick=\""+tableProps.controls[j].func+"(this,"+PKVals+")\"/>");
-	   				}
-				}
+				getControlsData(td, tableProps.controls[j], data[i]);
 	    	}
 			if(tableProps.controls.length) {
 				tr.append(td);
@@ -261,8 +195,81 @@ var theQwerty = function() {
 	// End of Creation of table DOM functions
 	// ------------------------------------------------------------------------------------------------------
 	
+	function getPKParams(data) {
+		var PKVals = "";
+		for(var j=0; j< _theQwertyGrid_PK.length; j++) {
+			PKVals += ", '"+data[_theQwertyGrid_cols[_theQwertyGrid_PK[j]].name]+"'";
+    	}
+		// Removing the extra ', ' in the beginning of the PK value
+		PKVals = PKVals.substring(2);
+		return PKVals;
+	}
 	
+	function getTDValue(col, data, i) {
+		
+		var td = jQuery("<td>");
+		if(col.displayAs == "normal") {
+			td.html(col.transformer(data[col.name]));
+		}
+		
+		else if(col.displayAs == "select") {
+			td = getSelectTD(col, data, i);
+		}
+
+		else if(col.displayAs == "template") {
+			td = getTemplateTD(col, data);
+		}
+		return td;
+	}
 	
+	function getSelectTD(col, data, i) {
+		var td = jQuery("<td>");
+		var PKVals = getPKParams(data);
+		var selectId = _theQwertyGrid_tableProps.tableId+"-"+col.name+"-select-"+i;
+		var val = data[col.name];
+		var onchange = "";
+		if(typeof col.func !== "undefined") {
+			onchange = " onchange=\""+col.func+"(this,"+PKVals+")\"";
+		}
+		var selectHtml = "<select id=\""+selectId+"\" class=\""+THE_QWERTY_DEFAULTS.cssClass.controls+" "+col.cssClass + "\""+onchange+">";
+		var optionHtml = "";
+		for(var  k=0; k<col.values.length; k++) {
+			if(col.values[k] == val) {
+				optionHtml += "<option selected =\"selected\" value=\""+col.values[k]+"\">"+col.displayValues[k]+"</option>";
+			} else {
+				optionHtml += "<option value=\""+col.values[k]+"\">"+col.displayValues[k]+"</option>";
+			}
+		}
+		selectHtml += optionHtml + "</select>";
+		
+		td.html(selectHtml);
+		return td;
+	}
+	
+	function getTemplateTD(col, data) {
+		var td = jQuery("<td>");
+		fillTemplate(col.templateId, td, data);
+		return td;
+	}
+	
+	function getControlsData(td, control, data) {
+		var predicates = "";
+		for(var k=0;k<control.predicateProperty.length;k++) {
+			predicates+= ", "+data[control.predicateProperty[k]];
+		}
+		predicates = predicates.substring(2);
+		
+		var func = "";
+		if(typeof control.func !== "undefined") {
+			func = " onclick=\""+control.func+"(this,"+PKVals+")\"";
+		}
+		
+		if(control.displayPredicate(predicates)) {
+			if(control.type == "button") {
+				td.append("<input title=\""+control.title+"\" class=\""+THE_QWERTY_DEFAULTS.cssClass.controls+" "+control.cssClass+"\" type=\""+control.type+"\" value=\""+control.caption+"\""+func+"/>");
+			}
+		}
+	}
 	// ------------------------------------------------------------------------------------------------------
 	// Paging functions
 	// ------------------------------------------------------------------------------------------------------
@@ -330,28 +337,28 @@ var theQwerty = function() {
 	 */
 	function theQwertyGrid_prevNextDisable() {
 		if(_theQwertyGrid_rowStart <= 0) {
-			jQuery("."+defaults.cssClass.pagingFirst).hide();
-			jQuery("."+defaults.cssClass.pagingFirstDisabledSys).show();
-			jQuery("."+defaults.cssClass.pagingPrevSys).hide();
-			jQuery("."+defaults.cssClass.pagingPrevDisabledSys).show();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirst).hide();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirstDisabledSys).show();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys).hide();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevDisabledSys).show();
 		}
 		if(_theQwertyGrid_rowEnd < _theQwertyGrid_tableProps.paging.totalRecords) {
-			jQuery("."+defaults.cssClass.pagingNextSys).show();
-			jQuery("."+defaults.cssClass.pagingNextDisabledSys).hide();
-			jQuery("."+defaults.cssClass.pagingLast).show();
-			jQuery("."+defaults.cssClass.pagingLastDisabledSys).hide();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextSys).show();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextDisabledSys).hide();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingLast).show();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingLastDisabledSys).hide();
 		}
 		if(_theQwertyGrid_rowStart > 0) {
-			jQuery("."+defaults.cssClass.pagingFirst).show();
-			jQuery("."+defaults.cssClass.pagingFirstDisabledSys).hide();
-			jQuery("."+defaults.cssClass.pagingPrevSys).show();
-			jQuery("."+defaults.cssClass.pagingPrevDisabledSys).hide();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirst).show();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirstDisabledSys).hide();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys).show();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevDisabledSys).hide();
 		}
 		if(_theQwertyGrid_rowEnd >= _theQwertyGrid_tableProps.paging.totalRecords) {
-			jQuery("."+defaults.cssClass.pagingNextSys).hide();
-			jQuery("."+defaults.cssClass.pagingNextDisabledSys).show();
-			jQuery("."+defaults.cssClass.pagingLast).hide();
-			jQuery("."+defaults.cssClass.pagingLastDisabledSys).show();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextSys).hide();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextDisabledSys).show();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingLast).hide();
+			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingLastDisabledSys).show();
 		}
 	}
 	/**
@@ -396,7 +403,7 @@ var theQwerty = function() {
 	function theQwertyGrid_paginationControls() {
 		jQuery("#"+_theQwertyGrid_tableProps.tableId+"_before").remove();
 		jQuery("#"+_theQwertyGrid_tableProps.tableId+"_after").remove();
-		var div = jQuery("<div class= '"+defaults.cssClass.pagingControls+"' id="+_theQwertyGrid_tableProps.tableId+"_before>");
+		var div = jQuery("<div class= '"+THE_QWERTY_DEFAULTS.cssClass.pagingControls+"' id="+_theQwertyGrid_tableProps.tableId+"_before>");
 	//			var controls = "<div class=\"taglib-page-iterator\">";
 	//							/*"<div class=\"search-results\">\
 	//							Showing <span id=\""+_theQwertyGrid_tableProps.tableId+"_rowStart\">"+parseInt(_theQwertyGrid_rowStart+1)+"</span> - \
@@ -430,13 +437,13 @@ var theQwerty = function() {
 		controls +=
 				/*"<span style=\"display :none;\" class = \"first "+_theQwertyGrid_tableProps.tableId+"_first_disabled\">	First	</span>" +
 				"<a class = \"first "+_theQwertyGrid_tableProps.tableId+"_first\" onclick=\"theQwertyGrid_firstPage()\">	First	</a>	" +*/
-				buildElement("span", "", "display: none;", defaults.cssClass.pagingPrev+" "+defaults.cssClass.pagingDisabled+" "+defaults.cssClass.pagingPrevDisabledSys, defaults.text.previous) +
-				buildElement("a", defaults.id.pagingPrev,"",defaults.cssClass.pagingPrev+" "+defaults.cssClass.pagingPrevSys, defaults.text.previous) +
+				buildElement("span", "", "display: none;", THE_QWERTY_DEFAULTS.cssClass.pagingPrev+" "+THE_QWERTY_DEFAULTS.cssClass.pagingDisabled+" "+THE_QWERTY_DEFAULTS.cssClass.pagingPrevDisabledSys, THE_QWERTY_DEFAULTS.text.previous) +
+				buildElement("a", THE_QWERTY_DEFAULTS.id.pagingPrev,"",THE_QWERTY_DEFAULTS.cssClass.pagingPrev+" "+THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys, THE_QWERTY_DEFAULTS.text.previous) +
 //				"<a href=\"#\" class = \"previous "+_theQwertyGrid_tableProps.tableId+"_prev\" onclick=\"theQwertyGrid_prevPage()\">	&lt; Previous	</a>	" +
 				
-				"<span class=\""+defaults.cssClass.pagingPageNumber+"\">"+currentPage+"	of	"+totalPages+"</span>"+
-				buildElement("span", "", "display: none;", defaults.cssClass.pagingNext+" "+defaults.cssClass.pagingDisabled+" "+defaults.cssClass.pagingNextDisabledSys, defaults.text.next) +
-				buildElement("a", defaults.id.pagingNext,"",defaults.cssClass.pagingNext+" "+defaults.cssClass.pagingNextSys, defaults.text.next);
+				"<span class=\""+THE_QWERTY_DEFAULTS.cssClass.pagingPageNumber+"\">"+currentPage+"	of	"+totalPages+"</span>"+
+				buildElement("span", "", "display: none;", THE_QWERTY_DEFAULTS.cssClass.pagingNext+" "+THE_QWERTY_DEFAULTS.cssClass.pagingDisabled+" "+THE_QWERTY_DEFAULTS.cssClass.pagingNextDisabledSys, THE_QWERTY_DEFAULTS.text.next) +
+				buildElement("a", THE_QWERTY_DEFAULTS.id.pagingNext,"",THE_QWERTY_DEFAULTS.cssClass.pagingNext+" "+THE_QWERTY_DEFAULTS.cssClass.pagingNextSys, THE_QWERTY_DEFAULTS.text.next);
 //				"<span style=\"display :none;\" class = \"qwerty-disabled next "+_theQwertyGrid_tableProps.tableId+"_next_disabled\">	Next &gt;	</span>" +
 //				"<a href=\"#\" class = \"next "+_theQwertyGrid_tableProps.tableId+"_next\" onclick=\"theQwertyGrid_nextPage()\">	Next &gt;	</a>" /*+
 //				"<span style=\"display :none;\" class = \"last "+_theQwertyGrid_tableProps.tableId+"_last_disabled\">	Last	</span>" +
@@ -544,7 +551,7 @@ var theQwerty = function() {
 	}
 	
 	function theQwertyGrid_showErrorMessage(message) {
-		var div = jQuery("<div class = \""+defaults.cssClass.errorMessage+"\">");
+		var div = jQuery("<div class = \""+THE_QWERTY_DEFAULTS.cssClass.errorMessage+"\">");
 		jQuery(div).html(message);
 		jQuery(_theQwertyGrid_tableProps.wrapperId).show();
 		jQuery(_theQwertyGrid_tableProps.wrapperId).append(div);
@@ -580,9 +587,16 @@ var theQwerty = function() {
 	}
 	
 	function bindAllEvents() {
-		bind(defaults.cssClass.pagingPrevSys, 'click', theQwertyGrid_prevPage);
-		bind(defaults.cssClass.pagingNextSys, 'click', theQwertyGrid_nextPage);
+		bind(THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys, 'click', theQwertyGrid_prevPage);
+		bind(THE_QWERTY_DEFAULTS.cssClass.pagingNextSys, 'click', theQwertyGrid_nextPage);
 	}
+	
+	function fillTemplate(templateId, element, data) {
+		var template = jQuery("#"+templateId);
+		var html = template.tmpl(data);
+		element.html(html);
+	}
+	
 	// ------------------------------------------------------------------------------------------------------
 	// End of utility functions
 	// ------------------------------------------------------------------------------------------------------
@@ -592,5 +606,37 @@ var theQwerty = function() {
 		theQwertyGrid_init(_tableProps);
 	};
 	
+	this.getCurrentRows = function() {
+		return _theQwertyGrid_displayData;
+	};
 };
 
+var THE_QWERTY_DEFAULTS = {
+	id: {
+	},
+	cssClass: {
+		table : "p90x-display-grid",
+		thead : "",
+		theadTr : "portlet-section-header results-header",
+		theadTrTh : "tableHeading",
+		tbody: "",
+		tbodyTr: "",
+		tbodyTrOdd: "odd",
+		tbodyTrEven: "even",
+		tbodyTrTd: "",
+		controls: "theQwertyGrid-controls",
+		pagingControls: "theQwerty-paging-controls",
+		pagingFirst: "first",
+		pagingPrev: "previous",
+		pagingNext: "next",
+		pagingLast: "last",
+		pagingDisabled: "theQwerty-disabled",
+		pagingPageNumber: "pg-num",
+		errorMessage: "grid-error-message"
+	},
+	text: {
+		previous: " &lt; Previous ",
+		next: " Next &gt; ",
+		errorMessage: "No data to display"
+	}
+};

@@ -3,10 +3,27 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/table.css">
 	<script src="js/libs/jquery-1.7.2.min.js" type="text/javascript"></script>
+	<script src="js/libs/jquery-tmpl.js" type="text/javascript"></script>
 	<script src="js/app/theQwertyGrid.js" type="text/javascript"></script>
+	<script src="js/app/qwerty.js" type="text/javascript"></script>
 	<script src="js/app/main.js" type="text/javascript"></script>
 </head>
 <body>
 	<div id="theTable"></div>
 </body>
+
+<script id="demo-tmp2l" type="text/x-jquery-tmpl">
+	${firstName}&nbsp;${lastName}
+</script>
+
+<script id="demo-tmpl" type="text/x-jquery-tmpl">
+{{if func(lastName) }}
+	<input type="checkbox" checked="checked">Approved<br>
+{{else}}
+	<input type="checkbox">Approved<br>
+{{/if}}
+wassup
+<br/>date
+</script>
+
 </html>
