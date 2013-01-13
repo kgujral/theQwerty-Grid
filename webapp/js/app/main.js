@@ -21,7 +21,8 @@ function populateGrid(count) {
 		headerCols: ["Id", "First Name", "Last Name", "Screen Name", "Email Address", "Full Name", "User ID", "Edit"],
 		controls: [{caption: "Edit", type: "button", func:"onEdit"}],
 		paging: {totalRecords: parseInt(count), enable: true, remote: true},
-		style: "width: 100%;"
+		style: "width: 100%;",
+		loadingImage: "loading-image"
 	});
 }
 
