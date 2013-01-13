@@ -22,8 +22,8 @@ var THE_QWERTY_DEFAULTS = {
 		errorMessage: "grid-error-message"
 	},
 	text: {
-		previous: " abc ",
-		next: " def ",
+		previous: " &lt; Previous ",
+		next: " Next &gt; ",
 		errorMessage: "No data to display"
 	}
 };

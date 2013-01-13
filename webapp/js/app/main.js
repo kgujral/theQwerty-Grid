@@ -1,4 +1,4 @@
-var th = new theQwerty();
+var th = new theQwerty(jQuery);
 
 var userUrl = "http://rest.kgujral.cloudbees.net/users";
 jQuery(document).ready(function() {

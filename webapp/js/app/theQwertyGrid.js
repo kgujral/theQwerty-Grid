@@ -1,4 +1,5 @@
-var theQwerty = function() {
+
+var theQwerty = function($) {
 
 	var _theQwertyGrid_table = {};
 	var _theQwertyGrid_rowStart = 0;
@@ -58,7 +59,7 @@ var theQwerty = function() {
 		_tableProps.url = typeof(_tableProps.url) === "undefined" ? "" :  _tableProps.url;
 		_tableProps.successCallback = typeof(_tableProps.successCallback) === "undefined" ? theQwertyDummyFunction :  _tableProps.successCallback;
 	
-		jQuery(_tableProps.wrapperId).hide();
+		$(_tableProps.wrapperId).hide();
 		_theQwertyGrid_tableProps = _tableProps;
 		_theQwertyGrid_rowStart = 0;
 		_theQwertyGrid_pageSize = _tableProps.pageSize[0];
@@ -97,12 +98,12 @@ var theQwerty = function() {
 	 * creates the table's header
 	 */
 	function theQwertyGrid_tableHeader (_tableProps) {
-		var thead = jQuery("<thead>");
-		var theadTr = jQuery("<tr>");
+		var thead = $("<thead>");
+		var theadTr = $("<tr>");
 		theadTr.addClass(THE_QWERTY_DEFAULTS.cssClass.theadTr);
 		
 		for(var i=0; i< _tableProps.headerCols.length; i++) {
-			var theadTrTh = jQuery("<th>");
+			var theadTrTh = $("<th>");
 			theadTrTh.addClass(THE_QWERTY_DEFAULTS.cssClass.theadTrTh);
 			var thWidth = typeof _tableProps.cols[i] === "undefined" ? "auto" : _tableProps.cols[i].width;
 			theadTrTh.attr("width", thWidth);
@@ -138,12 +139,12 @@ var theQwerty = function() {
 	 * creates actual table DOM
 	 */
 	function theQwertyGrid_createTable(_tableProps) {
-		var tbody = jQuery("<tbody>");
+		var tbody = $("<tbody>");
 		tbody.attr("id",_tableProps.tableId+"_rows");
 		
 		
 		
-		_theQwertyGrid_table = jQuery("<table>");
+		_theQwertyGrid_table = $("<table>");
 		_theQwertyGrid_table.addClass(THE_QWERTY_DEFAULTS.cssClass.table);
 		_theQwertyGrid_table.attr("id",_tableProps.tableId);
 		_theQwertyGrid_table.attr("style", "display: none;");
@@ -153,7 +154,7 @@ var theQwerty = function() {
 
 		_theQwertyGrid_table.append(thead);
 		_theQwertyGrid_table.append(tbody);
-		jQuery(_tableProps.wrapperId).append(_theQwertyGrid_table);
+		$(_tableProps.wrapperId).append(_theQwertyGrid_table);
 		theQwertyGrid_addRows(_theQwertyGrid_displayData, _tableProps);
 	}
 	
@@ -161,11 +162,11 @@ var theQwerty = function() {
 	 * add rows to table body
 	 */
 	function theQwertyGrid_addRows (data, tableProps) {
-		var tbody = jQuery("#"+tableProps.tableId+"_rows");
+		var tbody = $("#"+tableProps.tableId+"_rows");
 		for (var i = 0; i < data.length; i++) {
 			PKVals = getPKParams(data[i]);
-	    	var tr = jQuery("<tr>").attr("id",tableProps.tableId+"_row"+i);
-	    	var td = jQuery("<td>");
+	    	var tr = $("<tr>").attr("id",tableProps.tableId+"_row"+i);
+	    	var td = $("<td>");
 	    	if(i % 2 == 0)
 	    		tr.attr("class", THE_QWERTY_DEFAULTS.cssClass.tbodyTrOdd);
 	    	else
@@ -207,7 +208,7 @@ var theQwerty = function() {
 	
 	function getTDValue(col, data, i) {
 		
-		var td = jQuery("<td>");
+		var td = $("<td>");
 		if(col.displayAs == "normal") {
 			td.html(col.transformer(data[col.name]));
 		}
@@ -223,7 +224,7 @@ var theQwerty = function() {
 	}
 	
 	function getSelectTD(col, data, i) {
-		var td = jQuery("<td>");
+		var td = $("<td>");
 		var PKVals = getPKParams(data);
 		var selectId = _theQwertyGrid_tableProps.tableId+"-"+col.name+"-select-"+i;
 		var val = data[col.name];
@@ -247,7 +248,7 @@ var theQwerty = function() {
 	}
 	
 	function getTemplateTD(col, data) {
-		var td = jQuery("<td>");
+		var td = $("<td>");
 		fillTemplate(col.templateId, td, data);
 		return td;
 	}
@@ -337,28 +338,28 @@ var theQwerty = function() {
 	 */
 	function theQwertyGrid_prevNextDisable() {
 		if(_theQwertyGrid_rowStart <= 0) {
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirst).hide();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirstDisabledSys).show();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys).hide();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevDisabledSys).show();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirst).hide();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirstDisabledSys).show();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys).hide();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevDisabledSys).show();
 		}
 		if(_theQwertyGrid_rowEnd < _theQwertyGrid_tableProps.paging.totalRecords) {
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextSys).show();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextDisabledSys).hide();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingLast).show();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingLastDisabledSys).hide();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextSys).show();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextDisabledSys).hide();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingLast).show();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingLastDisabledSys).hide();
 		}
 		if(_theQwertyGrid_rowStart > 0) {
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirst).show();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirstDisabledSys).hide();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys).show();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevDisabledSys).hide();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirst).show();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingFirstDisabledSys).hide();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevSys).show();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingPrevDisabledSys).hide();
 		}
 		if(_theQwertyGrid_rowEnd >= _theQwertyGrid_tableProps.paging.totalRecords) {
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextSys).hide();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextDisabledSys).show();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingLast).hide();
-			jQuery("."+THE_QWERTY_DEFAULTS.cssClass.pagingLastDisabledSys).show();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextSys).hide();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingNextDisabledSys).show();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingLast).hide();
+			$("."+THE_QWERTY_DEFAULTS.cssClass.pagingLastDisabledSys).show();
 		}
 	}
 	/**
@@ -377,7 +378,7 @@ var theQwerty = function() {
 		 * page number is 0 index based.
 		 */
 		pageNumber--;
-		jQuery.ajax({
+		$.ajax({
 			url : _theQwertyGrid_tableProps.url,
 			dataType : 'json',
 			data:{pageNumber: pageNumber, pageSize: pageSize},
@@ -401,9 +402,9 @@ var theQwerty = function() {
 		return Math.ceil(parseInt(_theQwertyGrid_rowStart+1) / _theQwertyGrid_pageSize);
 	}
 	function theQwertyGrid_paginationControls() {
-		jQuery("#"+_theQwertyGrid_tableProps.tableId+"_before").remove();
-		jQuery("#"+_theQwertyGrid_tableProps.tableId+"_after").remove();
-		var div = jQuery("<div class= '"+THE_QWERTY_DEFAULTS.cssClass.pagingControls+"' id="+_theQwertyGrid_tableProps.tableId+"_before>");
+		$("#"+_theQwertyGrid_tableProps.tableId+"_before").remove();
+		$("#"+_theQwertyGrid_tableProps.tableId+"_after").remove();
+		var div = $("<div class= '"+THE_QWERTY_DEFAULTS.cssClass.pagingControls+"' id="+_theQwertyGrid_tableProps.tableId+"_before>");
 	//			var controls = "<div class=\"taglib-page-iterator\">";
 	//							/*"<div class=\"search-results\">\
 	//							Showing <span id=\""+_theQwertyGrid_tableProps.tableId+"_rowStart\">"+parseInt(_theQwertyGrid_rowStart+1)+"</span> - \
@@ -451,14 +452,14 @@ var theQwerty = function() {
 	//			controls += "</div></div></div></div>";
 		controls+= "</div>";
 		
-		jQuery(div).html(controls);
-		var div2 = jQuery("<div>");
-		jQuery(div2).attr("id",_theQwertyGrid_tableProps.tableId+"_after");
-		jQuery(div2).attr("class","theQwerty-paging-controls");
+		$(div).html(controls);
+		var div2 = $("<div>");
+		$(div2).attr("id",_theQwertyGrid_tableProps.tableId+"_after");
+		$(div2).attr("class","theQwerty-paging-controls");
 		
-		jQuery(div2).html(jQuery(div).html());
-		jQuery("#"+_theQwertyGrid_tableProps.tableId).before(div);
-		jQuery("#"+_theQwertyGrid_tableProps.tableId).after(div2);
+		$(div2).html($(div).html());
+		$("#"+_theQwertyGrid_tableProps.tableId).before(div);
+		$("#"+_theQwertyGrid_tableProps.tableId).after(div2);
 		bindAllEvents();
 	}
 	
@@ -467,7 +468,7 @@ var theQwerty = function() {
 	}
 	
 	function theQwertyGrid_gotoPage(obj) {
-		var currentPage = jQuery(obj).val();
+		var currentPage = $(obj).val();
 		_theQwertyGrid_rowStart = parseInt(currentPage - 1)* _theQwertyGrid_pageSize;
 		theQwertyGrid_setPageSize(false, _theQwertyGrid_pageSize);
 	}
@@ -532,7 +533,7 @@ var theQwerty = function() {
 	 * remove all rows from table body
 	 */
 	function theQwertyGrid_clearAllRows() {
-		jQuery("#"+_theQwertyGrid_tableProps.tableId+"_rows tr").remove();
+		$("#"+_theQwertyGrid_tableProps.tableId+"_rows tr").remove();
 	}
 	/**
 	 * removes all rows and inserts new data passed as argument
@@ -551,39 +552,39 @@ var theQwerty = function() {
 	}
 	
 	function theQwertyGrid_showErrorMessage(message) {
-		var div = jQuery("<div class = \""+THE_QWERTY_DEFAULTS.cssClass.errorMessage+"\">");
-		jQuery(div).html(message);
-		jQuery(_theQwertyGrid_tableProps.wrapperId).show();
-		jQuery(_theQwertyGrid_tableProps.wrapperId).append(div);
+		var div = $("<div class = \""+THE_QWERTY_DEFAULTS.cssClass.errorMessage+"\">");
+		$(div).html(message);
+		$(_theQwertyGrid_tableProps.wrapperId).show();
+		$(_theQwertyGrid_tableProps.wrapperId).append(div);
 	}
 	
 	function theQwertyGrid_startLoading() {
-		jQuery(_theQwertyGrid_tableProps.wrapperId).show();
+		$(_theQwertyGrid_tableProps.wrapperId).show();
 		if(_theQwertyGrid_tableProps.loadingImage != "undefined") {
-			var html = jQuery("#"+_theQwertyGrid_tableProps.loadingImage).html();
-			var center = jQuery("<center>");
-			var div = jQuery("<div id=\""+_theQwertyGrid_tableProps.tableId+"-loading\">");
-			jQuery(div).html(html);
-			jQuery(center).append(div);
-			jQuery("#"+_theQwertyGrid_tableProps.tableId+"_before").hide();
-			jQuery("#"+_theQwertyGrid_tableProps.tableId+"_after").hide();
-			jQuery("#"+_theQwertyGrid_tableProps.tableId).hide();
+			var html = $("#"+_theQwertyGrid_tableProps.loadingImage).html();
+			var center = $("<center>");
+			var div = $("<div id=\""+_theQwertyGrid_tableProps.tableId+"-loading\">");
+			$(div).html(html);
+			$(center).append(div);
+			$("#"+_theQwertyGrid_tableProps.tableId+"_before").hide();
+			$("#"+_theQwertyGrid_tableProps.tableId+"_after").hide();
+			$("#"+_theQwertyGrid_tableProps.tableId).hide();
 			
-			jQuery(_theQwertyGrid_tableProps.wrapperId).append(center);
+			$(_theQwertyGrid_tableProps.wrapperId).append(center);
 		}
 	}
 	
 	function theQwertyGrid_stopLoading() {
-		jQuery("#"+_theQwertyGrid_tableProps.tableId).fadeIn();
+		$("#"+_theQwertyGrid_tableProps.tableId).fadeIn();
 		if(_theQwertyGrid_tableProps.loadingImage != "undefined") {		
-			jQuery("#"+_theQwertyGrid_tableProps.tableId+"-loading").remove();
-			jQuery("#"+_theQwertyGrid_tableProps.tableId+"_before").show();
-			jQuery("#"+_theQwertyGrid_tableProps.tableId+"_after").show();
+			$("#"+_theQwertyGrid_tableProps.tableId+"-loading").remove();
+			$("#"+_theQwertyGrid_tableProps.tableId+"_before").show();
+			$("#"+_theQwertyGrid_tableProps.tableId+"_after").show();
 		}
 	}
 	
 	function bind(element, event, func) {
-		jQuery("."+element).bind(event, func);
+		$("."+element).bind(event, func);
 	}
 	
 	function bindAllEvents() {
@@ -592,7 +593,7 @@ var theQwerty = function() {
 	}
 	
 	function fillTemplate(templateId, element, data) {
-		var template = jQuery("#"+templateId);
+		var template = $("#"+templateId);
 		var html = template.tmpl(data);
 		element.html(html);
 	}
@@ -602,41 +603,11 @@ var theQwerty = function() {
 	// ------------------------------------------------------------------------------------------------------
 	
 	this.grid =	function (_tableProps) {
-		jQuery("#"+_tableProps.tableId).remove();
+		$("#"+_tableProps.tableId).remove();
 		theQwertyGrid_init(_tableProps);
 	};
 	
 	this.getCurrentRows = function() {
 		return _theQwertyGrid_displayData;
 	};
-};
-
-var THE_QWERTY_DEFAULTS = {
-	id: {
-	},
-	cssClass: {
-		table : "p90x-display-grid",
-		thead : "",
-		theadTr : "portlet-section-header results-header",
-		theadTrTh : "tableHeading",
-		tbody: "",
-		tbodyTr: "",
-		tbodyTrOdd: "odd",
-		tbodyTrEven: "even",
-		tbodyTrTd: "",
-		controls: "theQwertyGrid-controls",
-		pagingControls: "theQwerty-paging-controls",
-		pagingFirst: "first",
-		pagingPrev: "previous",
-		pagingNext: "next",
-		pagingLast: "last",
-		pagingDisabled: "theQwerty-disabled",
-		pagingPageNumber: "pg-num",
-		errorMessage: "grid-error-message"
-	},
-	text: {
-		previous: " &lt; Previous ",
-		next: " Next &gt; ",
-		errorMessage: "No data to display"
-	}
 };
